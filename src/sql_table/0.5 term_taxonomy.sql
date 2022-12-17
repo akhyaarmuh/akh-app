@@ -10,5 +10,6 @@ CREATE TABLE `term_taxonomy` (
   `status`           INT NOT NULL DEFAULT 0,
   PRIMARY KEY (`term_taxonomy_id`),
   CONSTRAINT `fk_term_taxonomy_term` FOREIGN KEY (`term_id`) REFERENCES terms(`term_id`),
-  CONSTRAINT `fk_term_taxonomy_user` FOREIGN KEY (`author`) REFERENCES users(`id`)
+  CONSTRAINT `fk_term_taxonomy_user` FOREIGN KEY (`author`) REFERENCES users(`id`),
+  CONSTRAINT `fk_term_taxonomy_biz` FOREIGN KEY (`biz`) REFERENCES biz(`id`)
 ) ENGINE = InnoDB;
