@@ -1,7 +1,7 @@
 import 'dotenv/config';
 import express from 'express';
 
-import bizRouter from './router/biz.js';
+import bizRouter from './routes/biz.js';
 
 const app = express();
 

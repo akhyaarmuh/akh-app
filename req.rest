@@ -2,9 +2,12 @@ POST http://localhost:5000/register-biz
 Content-Type: application/json
 
 {
-  "name": "Sua saja 2",
+  "name": "PT. APALAH",
   "meta": [
-    { "meta_key": "whatsapp", "meta_value": "6282354566666" },
-    { "meta_key": "address", "meta_value": "Amuntai Tengah" }
+    { "meta_key": "whatsapp", "meta_value": "6285250661542" },
+    { "meta_key": "address", "meta_value": "Sungai Malang" }
   ]
 }
+
+###
+GET http://localhost:5000/register-biz

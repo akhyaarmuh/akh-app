@@ -5,5 +5,6 @@ CREATE TABLE `biz` (
   `status`     INT NOT NULL DEFAULT 1,
   `created_at` TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY slug_unique (slug)
 ) ENGINE = InnoDB;

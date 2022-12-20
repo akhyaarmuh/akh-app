@@ -1,5 +1,6 @@
 import bizModels from '../models/biz.js';
 import bizmetaModels from '../models/bizmeta.js';
+import { sendResponse } from '../utilities/index.js';
 
 export const createBiz = async (req, res) => {
   const { body } = req;
@@ -13,13 +14,20 @@ export const createBiz = async (req, res) => {
       await bizmetaModels.createBizmeta(biz_id, meta);
     });
 
-    res.status(201).json({ message: 'Berhasil menambah biz baru' });
+    sendResponse(res, 201, [undefined, 'Berhasil menambah biz baru']);
   } catch (error) {
-    res.status(500).json({
-      message: error.message || 'Server error',
-      error,
-    });
+    sendResponse(res, 500, [error]);
   }
 };
 
-export default { createBiz };
+export const getAllBiz = async (req, res) => {
+  try {
+    const [bizs] = await bizModels.getAllBiz();
+
+    sendResponse(res, 200, [], bizs);
+  } catch (error) {
+    sendResponse(res, 500, [error]);
+  }
+};
+
+export default { createBiz, getAllBiz };
