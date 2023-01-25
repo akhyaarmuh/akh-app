@@ -6,19 +6,14 @@ Content-Type: application/json
   "password": "123"
 }
 
-# data
 ###
-POST http://localhost:5000/api/v1/data
+POST http://localhost:5000/api/v1/biz
 Content-Type: application/json
 
 {
-  "name": "Ayam Bakar",
-  "data_type": "produk",
-  "biz": 1,
+  "name": "NW Store",
   "meta": [
-    {"meta_key": "price", "meta_value": "16000", "meta_extra": ""},
-    {"meta_key": "featured_image", "meta_value": "2", "meta_extra": ""},
-    {"meta_key": "komisi_reseller", "meta_value": "200", "meta_extra": ""},
-    {"meta_key": "deskripsi", "meta_value": "Ayam bakar ini dibuat dengan bumbu-bumbu", "meta_extra": ""}
+    {"meta_key": "address", "meta_value": "Barabai", "meta_extra": ""},
+    {"meta_key": "whatsapp", "meta_value": "081316589945", "meta_extra": ""}
   ]
 }
