@@ -10,3 +10,12 @@ export const createBiz = async (req, res) => {
     res.status(500).json({ message: error.message || 'Internal server error', error });
   }
 };
+
+export const getAllBiz = async (req, res) => {
+  try {
+    const bizs = await Biz.findAll();
+    res.json({ data: bizs });
+  } catch (error) {
+    res.status(500).json({ message: error.message || 'Internal server error', error });
+  }
+};

@@ -17,3 +17,6 @@ Content-Type: application/json
     {"meta_key": "whatsapp", "meta_value": "081316589945", "meta_extra": ""}
   ]
 }
+
+###
+GET http://localhost:5000/api/v1/biz

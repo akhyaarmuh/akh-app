@@ -3,6 +3,7 @@ import dbPool from '../config/database.js';
 export const save = async (payload) => {
   const connection = await dbPool.getConnection();
   const slug = payload.name.toLowerCase().replaceAll(' ', '-');
+
   try {
     await connection.beginTransaction();
 
@@ -27,4 +28,19 @@ export const save = async (payload) => {
   }
 };
 
-export default { save };
+export const findAll = async () => {
+  const SQLQuery = `SELECT biz.id, biz.name, biz.slug, biz.status,
+                    MAX(CASE bizmeta.meta_key WHEN 'whatsapp' THEN bizmeta.meta_value END) as whatsapp,
+                    MAX(CASE bizmeta.meta_key WHEN 'address' THEN bizmeta.meta_value END) as address
+                    FROM biz 
+                    JOIN bizmeta ON bizmeta.biz_id = biz.id
+                    GROUP BY biz.id;`;
+  try {
+    const [bizs] = await dbPool.execute(SQLQuery);
+    return bizs;
+  } catch (error) {
+    throw { message: error.message };
+  }
+};
+
+export default { save, findAll };
