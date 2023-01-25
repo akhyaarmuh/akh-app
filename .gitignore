@@ -1,0 +1,16 @@
+/node_modules
+.env
+
+# DELIMITER |
+# CREATE TRIGGER `changeSlug` BEFORE INSERT ON `biz`
+# 	FOR EACH ROW BEGIN
+# 		DECLARE `original_slug` VARCHAR(125);
+# 		DECLARE `slug_counter` INT;
+# 		SET original_slug = NEW.`slug`;
+# 		SET slug_counter = 1;
+# 		WHILE EXISTS (SELECT slug FROM biz WHERE slug = NEW.`slug`) DO
+# 			SET NEW.`slug` = CONCAT(original_slug, '-', slug_counter); 
+# 			SET slug_counter = slug_counter + 1;
+# 		END WHILE;
+# 	END |
+# DELIMITER ;
