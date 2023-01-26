@@ -1,26 +1,44 @@
 # ----------     BIZ API     ----------
-###
 POST http://localhost:5000/api/v1/biz
 Content-Type: application/json
 
 {
   "name": "NW Store",
   "meta": [
-    {"meta_key": "address", "meta_value": "Barabai", "meta_extra": ""},
-    {"meta_key": "whatsapp", "meta_value": "081316589945", "meta_extra": ""}
+    {"meta_key": "address", "meta_value": "Amuntai", "meta_extra": ""},
+    {"meta_key": "whatsapp", "meta_value": "082354566666", "meta_extra": ""}
   ]
 }
 
 ###
 GET http://localhost:5000/api/v1/biz
 
-###
-GET http://localhost:5000/api/v1/biz/2
+###   
+GET http://localhost:5000/api/v1/biz/6
 
 ###
-DELETE http://localhost:5000/api/v1/biz/3
+PATCH http://localhost:5000/api/v1/biz/deactive/2
+
+###
+PATCH http://localhost:5000/api/v1/biz/2
+Content-Type: application/json
+
+{
+  "name": "New Store Updated",
+  "meta": [
+    {"meta_key": "address", "meta_value": "Barabai Updated", "meta_extra": ""},
+    {"meta_key": "whatsapp", "meta_value": "081316589945 Updated", "meta_extra": ""}
+  ]
+}
+
+###
+DELETE http://localhost:5000/api/v1/biz/2
 
 
+
+
+
+# ----------     USER API     ----------
 
 
 

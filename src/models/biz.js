@@ -34,7 +34,7 @@ export const find = async () => {
                     MAX(CASE bizmeta.meta_key WHEN 'whatsapp' THEN bizmeta.meta_value END) as whatsapp
                     FROM biz 
                     LEFT JOIN bizmeta ON bizmeta.biz_id = biz.id
-                    GROUP BY biz.id;`;
+                    GROUP BY biz.id`;
   try {
     const [bizs] = await dbPool.execute(SQLQuery);
     return bizs;
@@ -50,7 +50,7 @@ export const findById = async (id) => {
                     FROM biz 
                     LEFT JOIN bizmeta ON bizmeta.biz_id = biz.id
                     WHERE biz.id = ?
-                    GROUP BY biz.id;`;
+                    GROUP BY biz.id`;
   try {
     const [bizs] = await dbPool.execute(SQLQuery, [id]);
     return bizs[0];
@@ -59,8 +59,40 @@ export const findById = async (id) => {
   }
 };
 
+export const findByIdAndDeactive = async (id) => {
+  try {
+    await dbPool.execute(`UPDATE biz SET status = 0 WHERE id = ?`, [id]);
+  } catch (error) {
+    throw { message: error.message };
+  }
+};
+
+export const findByIdAndUpdate = async (id, payload) => {
+  const connection = await dbPool.getConnection();
+
+  try {
+    await connection.beginTransaction();
+
+    // perbarui data ke table data
+    await dbPool.execute(`UPDATE biz SET name = ? WHERE id = ?`, [payload.name, id]);
+
+    // perbarui data ke metadata
+    payload.meta.forEach(async (meta) => {
+      await dbPool.execute(
+        `UPDATE bizmeta SET meta_value = ? WHERE biz_id = ? AND meta_key = ?`,
+        [meta.meta_value, id, meta.meta_key]
+      );
+    });
+
+    await connection.commit();
+  } catch (error) {
+    await connection.rollback();
+    throw { message: error.message };
+  }
+};
+
 export const findByIdAndDelete = async (id) => {
-  const SQLQuery = `DELETE FROM biz WHERE id = ?;`;
+  const SQLQuery = `DELETE FROM biz WHERE id = ?`;
   try {
     await dbPool.execute(SQLQuery, [id]);
   } catch (error) {
@@ -68,4 +100,11 @@ export const findByIdAndDelete = async (id) => {
   }
 };
 
-export default { save, find, findById, findByIdAndDelete };
+export default {
+  save,
+  find,
+  findById,
+  findByIdAndDeactive,
+  findByIdAndUpdate,
+  findByIdAndDelete,
+};
