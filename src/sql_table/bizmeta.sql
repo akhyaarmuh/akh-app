@@ -6,4 +6,5 @@ CREATE TABLE `bizmeta` (
   `meta_extra` LONGTEXT,
   PRIMARY KEY (`meta_id`),
   CONSTRAINT `fk_bizmeta_biz` FOREIGN KEY (`biz_id`) REFERENCES biz(`id`)
+    ON DELETE CASECADE
 ) ENGINE = InnoDB;

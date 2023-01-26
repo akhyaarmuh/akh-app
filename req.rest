@@ -1,11 +1,4 @@
-POST http://localhost:5000/api/v1/login
-Content-Type: application/json
-
-{
-  "username": "akhyaar",
-  "password": "123"
-}
-
+# ----------     BIZ API     ----------
 ###
 POST http://localhost:5000/api/v1/biz
 Content-Type: application/json
@@ -20,3 +13,23 @@ Content-Type: application/json
 
 ###
 GET http://localhost:5000/api/v1/biz
+
+###
+GET http://localhost:5000/api/v1/biz/2
+
+###
+DELETE http://localhost:5000/api/v1/biz/3
+
+
+
+
+
+# ----------     AUTH API     ----------
+###
+POST http://localhost:5000/api/v1/login
+Content-Type: application/json
+
+{
+  "username": "akhyaar",
+  "password": "123"
+}

@@ -28,12 +28,12 @@ export const save = async (payload) => {
   }
 };
 
-export const findAll = async () => {
+export const find = async () => {
   const SQLQuery = `SELECT biz.id, biz.name, biz.slug, biz.status,
-                    MAX(CASE bizmeta.meta_key WHEN 'whatsapp' THEN bizmeta.meta_value END) as whatsapp,
-                    MAX(CASE bizmeta.meta_key WHEN 'address' THEN bizmeta.meta_value END) as address
+                    MAX(CASE bizmeta.meta_key WHEN 'address' THEN bizmeta.meta_value END) as address,
+                    MAX(CASE bizmeta.meta_key WHEN 'whatsapp' THEN bizmeta.meta_value END) as whatsapp
                     FROM biz 
-                    JOIN bizmeta ON bizmeta.biz_id = biz.id
+                    LEFT JOIN bizmeta ON bizmeta.biz_id = biz.id
                     GROUP BY biz.id;`;
   try {
     const [bizs] = await dbPool.execute(SQLQuery);
@@ -43,4 +43,29 @@ export const findAll = async () => {
   }
 };
 
-export default { save, findAll };
+export const findById = async (id) => {
+  const SQLQuery = `SELECT biz.id, biz.name, biz.slug, biz.status,
+                    MAX(CASE bizmeta.meta_key WHEN 'address' THEN bizmeta.meta_value END) as address,
+                    MAX(CASE bizmeta.meta_key WHEN 'whatsapp' THEN bizmeta.meta_value END) as whatsapp
+                    FROM biz 
+                    LEFT JOIN bizmeta ON bizmeta.biz_id = biz.id
+                    WHERE biz.id = ?
+                    GROUP BY biz.id;`;
+  try {
+    const [bizs] = await dbPool.execute(SQLQuery, [id]);
+    return bizs[0];
+  } catch (error) {
+    throw { message: error.message };
+  }
+};
+
+export const findByIdAndDelete = async (id) => {
+  const SQLQuery = `DELETE FROM biz WHERE id = ?;`;
+  try {
+    await dbPool.execute(SQLQuery, [id]);
+  } catch (error) {
+    throw { message: error.message };
+  }
+};
+
+export default { save, find, findById, findByIdAndDelete };
