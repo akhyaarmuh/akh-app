@@ -3,10 +3,10 @@ POST http://localhost:5000/api/v1/biz
 Content-Type: application/json
 
 {
-  "name": "NW Store",
+  "name": "Auto Shop",
   "meta": [
-    {"meta_key": "address", "meta_value": "Amuntai", "meta_extra": ""},
-    {"meta_key": "whatsapp", "meta_value": "082354566666", "meta_extra": ""}
+    {"meta_key": "address", "meta_value": "Barabai", "meta_extra": ""},
+    {"meta_key": "whatsapp", "meta_value": "081316589945", "meta_extra": ""}
   ]
 }
 
@@ -14,20 +14,20 @@ Content-Type: application/json
 GET http://localhost:5000/api/v1/biz
 
 ###   
-GET http://localhost:5000/api/v1/biz/6
+GET http://localhost:5000/api/v1/biz/2
 
 ###
-PATCH http://localhost:5000/api/v1/biz/deactive/2
+PATCH http://localhost:5000/api/v1/biz/deactive/1
 
 ###
 PATCH http://localhost:5000/api/v1/biz/2
 Content-Type: application/json
 
 {
-  "name": "New Store Updated",
+  "name": "Auto Shop Updated",
   "meta": [
-    {"meta_key": "address", "meta_value": "Barabai Updated", "meta_extra": ""},
-    {"meta_key": "whatsapp", "meta_value": "081316589945 Updated", "meta_extra": ""}
+    {"meta_key": "address", "meta_value": "Barabai", "meta_extra": ""},
+    {"meta_key": "whatsapp", "meta_value": "081316589945", "meta_extra": ""}
   ]
 }
 
@@ -39,6 +39,56 @@ DELETE http://localhost:5000/api/v1/biz/2
 
 
 # ----------     USER API     ----------
+###
+POST http://localhost:5000/api/v1/user
+Content-Type: application/json
+
+{
+  "username": "azizahnuur",
+  "password": "654321",
+  "type": "user",
+  "full_name": "Nuur Azizah",
+  "email": "azizah@gmail.com",
+  "nicename": "nooraj",
+  "url": "https://azizah.pe.hu",
+  "biz": 1,
+  "meta": [
+    {"meta_key": "capabilities", "meta_value": "user", "meta_extra": ""},
+    {"meta_key": "whatsapp", "meta_value": "081316589945", "meta_extra": ""}
+  ]
+}
+
+###
+GET http://localhost:5000/api/v1/user
+
+###
+GET http://localhost:5000/api/v1/user/3
+
+###
+PATCH http://localhost:5000/api/v1/user/deactive/3
+
+###
+PATCH http://localhost:5000/api/v1/user/3
+Content-Type: application/json
+
+{
+  "username": "updated",
+  "type": "user",
+  "full_name": "Nuur Azizah updated",
+  "email": "azizah@gmail.com updated",
+  "nicename": "nooraj updated",
+  "url": "https://azizah.pe.hu updated",
+  "biz": 1,
+  "meta": [
+    {"meta_key": "capabilities", "meta_value": "user", "meta_extra": ""},
+    {"meta_key": "whatsapp", "meta_value": "081316589945 updated", "meta_extra": ""}
+  ]
+}
+
+###
+DELETE http://localhost:5000/api/v1/user/3
+
+
 
 
 
@@ -48,6 +98,6 @@ POST http://localhost:5000/api/v1/login
 Content-Type: application/json
 
 {
-  "username": "akhyaar",
-  "password": "123"
+  "username": "akhyaarmuh",
+  "password": "123456"
 }

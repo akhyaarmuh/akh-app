@@ -1,65 +1,65 @@
-import Biz from '../models/biz.js';
+import User from '../models/user.js';
 
-export const createBiz = async (req, res) => {
+export const createUser = async (req, res) => {
   const payload = req.body;
 
   try {
-    await Biz.save(payload);
+    await User.save(payload);
     res.sendStatus(201);
   } catch (error) {
     res.status(500).json({ message: error.message || 'Internal server error', error });
   }
 };
 
-export const getAllBiz = async (req, res) => {
+export const getAllUser = async (req, res) => {
   try {
-    const bizs = await Biz.find();
-    res.json({ data: bizs });
+    const users = await User.find();
+    res.json({ data: users });
   } catch (error) {
     res.status(500).json({ message: error.message || 'Internal server error', error });
   }
 };
 
-export const getBizById = async (req, res) => {
+export const getUserById = async (req, res) => {
   const { id } = req.params;
   try {
-    const biz = await Biz.findById(id);
+    const user = await User.findById(id);
 
-    if (!biz) return res.status(404).json({ message: 'Data tidak ditemukan' });
+    if (!user) return res.status(404).json({ message: 'Data tidak ditemukan' });
 
-    res.json({ data: biz });
+    res.json({ data: user });
   } catch (error) {
     res.status(500).json({ message: error.message || 'Internal server error', error });
   }
 };
 
-export const deactiveBizById = async (req, res) => {
+export const deactiveUserById = async (req, res) => {
   const { id } = req.params;
 
   try {
-    await Biz.findByIdAndDeactive(id);
+    await User.findByIdAndDeactive(id);
     res.sendStatus(200);
   } catch (error) {
     res.status(500).json({ message: error.message || 'Internal server error', error });
   }
 };
 
-export const updateBizById = async (req, res) => {
+export const updateUserById = async (req, res) => {
   const { id } = req.params;
   const payload = req.body;
 
   try {
-    await Biz.findByIdAndUpdate(id, payload);
+    await User.findByIdAndUpdate(id, payload);
     res.sendStatus(200);
   } catch (error) {
     res.status(500).json({ message: error.message || 'Internal server error', error });
   }
 };
 
-export const deleteBizById = async (req, res) => {
+export const deleteUserById = async (req, res) => {
   const { id } = req.params;
   try {
-    await Biz.findByIdAndDelete(id);
+    await User.findByIdAndDelete(id);
     res.sendStatus(200);
   } catch (error) {
     res.status(500).json({ message: error.message || 'Internal server error', error });

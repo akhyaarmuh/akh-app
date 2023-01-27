@@ -7,13 +7,13 @@ export const save = async (payload) => {
   try {
     await connection.beginTransaction();
 
-    // memasukkan data ke table data
+    // memasukkan data ke table biz
     const [biz] = await dbPool.execute(`INSERT INTO biz (name, slug) VALUES (?, ?)`, [
       payload.name,
       slug,
     ]);
 
-    // memasukkan data ke metadata
+    // memasukkan data ke bizmeta
     payload.meta.forEach(async (meta) => {
       await dbPool.execute(
         `INSERT INTO bizmeta (biz_id, meta_key, meta_value, meta_extra) VALUES (?, ?, ?, ?)`,
@@ -30,11 +30,11 @@ export const save = async (payload) => {
 
 export const find = async () => {
   const SQLQuery = `SELECT biz.id, biz.name, biz.slug, biz.status,
-                    MAX(CASE bizmeta.meta_key WHEN 'address' THEN bizmeta.meta_value END) as address,
-                    MAX(CASE bizmeta.meta_key WHEN 'whatsapp' THEN bizmeta.meta_value END) as whatsapp
-                    FROM biz 
-                    LEFT JOIN bizmeta ON bizmeta.biz_id = biz.id
-                    GROUP BY biz.id`;
+    MAX(CASE bizmeta.meta_key WHEN 'address' THEN bizmeta.meta_value END) as address,
+    MAX(CASE bizmeta.meta_key WHEN 'whatsapp' THEN bizmeta.meta_value END) as whatsapp
+    FROM biz 
+    LEFT JOIN bizmeta ON bizmeta.biz_id = biz.id
+    GROUP BY biz.id`;
   try {
     const [bizs] = await dbPool.execute(SQLQuery);
     return bizs;
@@ -45,12 +45,12 @@ export const find = async () => {
 
 export const findById = async (id) => {
   const SQLQuery = `SELECT biz.id, biz.name, biz.slug, biz.status,
-                    MAX(CASE bizmeta.meta_key WHEN 'address' THEN bizmeta.meta_value END) as address,
-                    MAX(CASE bizmeta.meta_key WHEN 'whatsapp' THEN bizmeta.meta_value END) as whatsapp
-                    FROM biz 
-                    LEFT JOIN bizmeta ON bizmeta.biz_id = biz.id
-                    WHERE biz.id = ?
-                    GROUP BY biz.id`;
+    MAX(CASE bizmeta.meta_key WHEN 'address' THEN bizmeta.meta_value END) as address,
+    MAX(CASE bizmeta.meta_key WHEN 'whatsapp' THEN bizmeta.meta_value END) as whatsapp
+    FROM biz 
+    LEFT JOIN bizmeta ON bizmeta.biz_id = biz.id
+    WHERE biz.id = ?
+    GROUP BY biz.id`;
   try {
     const [bizs] = await dbPool.execute(SQLQuery, [id]);
     return bizs[0];
@@ -73,10 +73,10 @@ export const findByIdAndUpdate = async (id, payload) => {
   try {
     await connection.beginTransaction();
 
-    // perbarui data ke table data
+    // perbarui data ke table biz
     await dbPool.execute(`UPDATE biz SET name = ? WHERE id = ?`, [payload.name, id]);
 
-    // perbarui data ke metadata
+    // perbarui data ke bizmeta
     payload.meta.forEach(async (meta) => {
       await dbPool.execute(
         `UPDATE bizmeta SET meta_value = ? WHERE biz_id = ? AND meta_key = ?`,
