@@ -39,13 +39,14 @@ export const save = async (payload) => {
   }
 };
 
-export const find = async () => {
+export const find = async (query) => {
   const SQLQuery = `SELECT users.id, users.username, users.nicename, users.email, users.url,
     users.type, users.status, users.full_name, users.biz,
     MAX(CASE usermeta.meta_key WHEN 'capabilities' THEN usermeta.meta_value END) as capabilities,
     MAX(CASE usermeta.meta_key WHEN 'whatsapp' THEN usermeta.meta_value END) as whatsapp
     FROM users 
     LEFT JOIN usermeta ON usermeta.user_id = users.id
+    ${query ? `WHERE users.${query}` : ''}
     GROUP BY users.id`;
   try {
     const [users] = await dbPool.execute(SQLQuery);
@@ -141,6 +142,18 @@ export const findByIdAndDelete = async (id) => {
   }
 };
 
+export const updateTokenById = async (id, token) => {
+  const sqlQuery = `UPDATE users SET 
+    refresh_token = ?
+    WHERE id = ?`;
+
+  try {
+    await dbPool.execute(sqlQuery, [token, id]);
+  } catch (error) {
+    throw { message: error.message };
+  }
+};
+
 export default {
   save,
   find,
@@ -149,4 +162,5 @@ export default {
   findByIdAndDeactive,
   findByIdAndUpdate,
   findByIdAndDelete,
+  updateTokenById,
 };

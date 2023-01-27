@@ -1,3 +1,5 @@
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 import User from '../models/user.js';
 
 export const createUser = async (req, res) => {
@@ -35,7 +37,17 @@ export const login = async (req, res) => {
     const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN, {
       expiresIn: '15s',
     });
+    const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN, {
+      expiresIn: '1d',
+    });
 
+    // update refresh_token on table users
+    await User.updateTokenById(user.user_id, refreshToken);
+
+    res.cookie('refresh_token', refreshToken, {
+      httpOnly: true,
+      maxAge: 24 * 60 * 60 * 1000,
+    });
     res.status(200).json({ accessToken });
   } catch (error) {
     res.status(500).json({ message: error.message || 'Internal server error', error });
@@ -46,6 +58,35 @@ export const getAllUser = async (req, res) => {
   try {
     const users = await User.find();
     res.json({ data: users });
+  } catch (error) {
+    res.status(500).json({ message: error.message || 'Internal server error', error });
+  }
+};
+
+export const refreshToken = async (req, res) => {
+  try {
+    const refreshToken = req.cookies.refresh_token;
+    if (!refreshToken) return res.sendStatus(401);
+
+    const user = await User.find(`refresh_token = '${refreshToken}'`);
+    if (!user[0]) return res.sendStatus(403);
+
+    jwt.verify(refreshToken, process.env.REFRESH_TOKEN, async (err, decoded) => {
+      if (err) return res.sendStatus(403);
+
+      const accessToken = jwt.sign(
+        {
+          user_id: decoded.user_id,
+          biz: decoded.biz,
+          capabilities: decoded.capabilities,
+        },
+        process.env.ACCESS_TOKEN,
+        {
+          expiresIn: '15s',
+        }
+      );
+      res.json({ accessToken });
+    });
   } catch (error) {
     res.status(500).json({ message: error.message || 'Internal server error', error });
   }

@@ -72,6 +72,7 @@ Content-Type: application/json
 
 ###
 GET http://localhost:5000/api/v1/user
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJiaXoiOjEsImNhcGFiaWxpdGllcyI6ImFkbWluIiwiaWF0IjoxNjc0ODI5Mzk3LCJleHAiOjE2NzQ4Mjk0MTJ9.QapMdM7hXaiicKy-_Pdm-A1_Hq0ceceXhGE-Ce_bjZs
 
 ###
 GET http://localhost:5000/api/v1/user/3
@@ -132,3 +133,6 @@ Content-Type: application/json
   "username": "akhyaarmuh",
   "password": "123456"
 }
+
+###
+GET http://localhost:5000/api/v1/user/refresh-token

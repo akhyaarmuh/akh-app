@@ -4,6 +4,7 @@ import {
   createUser,
   login,
   getAllUser,
+  refreshToken,
   getUserById,
   deactiveUserById,
   updateUserById,
@@ -16,6 +17,7 @@ router.post('/', createUser);
 router.post('/register', createUser);
 router.post('/login', login);
 router.get('/', verifyToken, getAllUser);
+router.get('/refresh-token', refreshToken);
 router.get('/:id', verifyToken, getUserById);
 router.patch('/deactive/:id', verifyToken, deactiveUserById);
 router.patch('/:id', verifyToken, updateUserById);
