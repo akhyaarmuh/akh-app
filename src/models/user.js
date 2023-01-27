@@ -72,6 +72,22 @@ export const findById = async (id) => {
   }
 };
 
+export const findByUsername = async (username) => {
+  const SQLQuery = `SELECT u.id AS user_id, u.biz, u.password AS user_pass,
+    MAX(CASE um.meta_key WHEN 'capabilities' THEN um.meta_value END) AS capabilities
+    FROM users AS u 
+    JOIN usermeta AS um ON um.user_id = u.id 
+    WHERE u.username = ?
+    GROUP BY u.id`;
+
+  try {
+    const [users] = await dbPool.execute(SQLQuery, [username]);
+    return users[0] || {};
+  } catch (error) {
+    throw { message: error.message };
+  }
+};
+
 export const findByIdAndDeactive = async (id) => {
   try {
     await dbPool.execute(`UPDATE users SET status = 0 WHERE id = ?`, [id]);
@@ -129,6 +145,7 @@ export default {
   save,
   find,
   findById,
+  findByUsername,
   findByIdAndDeactive,
   findByIdAndUpdate,
   findByIdAndDelete,

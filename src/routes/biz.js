@@ -1,5 +1,5 @@
 import express from 'express';
-
+import { verifyToken } from '../middleware/index.js';
 import {
   createBiz,
   getAllBiz,
@@ -11,11 +11,12 @@ import {
 
 const router = express.Router();
 
-router.post('/', createBiz);
-router.get('/', getAllBiz);
-router.get('/:id', getBizById);
-router.patch('/deactive/:id', deactiveBizById);
-router.patch('/:id', updateBizById);
-router.delete('/:id', deleteBizById);
+router.post('/', verifyToken, createBiz);
+router.post('/register-biz', verifyToken, createBiz);
+router.get('/', verifyToken, getAllBiz);
+router.get('/:id', verifyToken, getBizById);
+router.patch('/deactive/:id', verifyToken, deactiveBizById);
+router.patch('/:id', verifyToken, updateBizById);
+router.delete('/:id', verifyToken, deleteBizById);
 
 export default router;

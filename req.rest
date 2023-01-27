@@ -11,6 +11,18 @@ Content-Type: application/json
 }
 
 ###
+POST http://localhost:5000/api/v1/biz/register-biz
+Content-Type: application/json
+
+{
+  "name": "Auto Shop",
+  "meta": [
+    {"meta_key": "address", "meta_value": "Barabai", "meta_extra": ""},
+    {"meta_key": "whatsapp", "meta_value": "081316589945", "meta_extra": ""}
+  ]
+}
+
+###
 GET http://localhost:5000/api/v1/biz
 
 ###   
@@ -94,7 +106,26 @@ DELETE http://localhost:5000/api/v1/user/3
 
 # ----------     AUTH API     ----------
 ###
-POST http://localhost:5000/api/v1/login
+POST http://localhost:5000/api/v1/user/register
+Content-Type: application/json
+
+{
+  "username": "azizahnuur",
+  "password": "654321",
+  "type": "user",
+  "full_name": "Nuur Azizah",
+  "email": "azizah@gmail.com",
+  "nicename": "nooraj",
+  "url": "https://azizah.pe.hu",
+  "biz": 1,
+  "meta": [
+    {"meta_key": "capabilities", "meta_value": "user", "meta_extra": ""},
+    {"meta_key": "whatsapp", "meta_value": "081316589945", "meta_extra": ""}
+  ]
+}
+
+###
+POST http://localhost:5000/api/v1/user/login
 Content-Type: application/json
 
 {
