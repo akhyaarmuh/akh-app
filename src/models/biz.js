@@ -1,6 +1,7 @@
 import dbPool from '../config/database.js';
 
 export const save = async (payload) => {
+  const meta = payload.meta;
   const connection = await dbPool.getConnection();
   const slug = payload.name.toLowerCase().replaceAll(' ', '-');
 
@@ -14,12 +15,12 @@ export const save = async (payload) => {
     ]);
 
     // memasukkan data ke bizmeta
-    payload.meta.forEach(async (meta) => {
+    for (let i = 0; i < meta.length; i++) {
       await dbPool.execute(
         `INSERT INTO bizmeta (biz_id, meta_key, meta_value, meta_extra) VALUES (?, ?, ?, ?)`,
-        [biz.insertId, meta.meta_key, meta.meta_value, meta.meta_extra]
+        [biz.insertId, meta[i].meta_key, meta[i].meta_value, meta[i].meta_extra]
       );
-    });
+    }
 
     await connection.commit();
   } catch (error) {
@@ -68,6 +69,7 @@ export const findByIdAndDeactive = async (id) => {
 };
 
 export const findByIdAndUpdate = async (id, payload) => {
+  const meta = payload.meta;
   const connection = await dbPool.getConnection();
 
   try {
@@ -77,12 +79,12 @@ export const findByIdAndUpdate = async (id, payload) => {
     await dbPool.execute(`UPDATE biz SET name = ? WHERE id = ?`, [payload.name, id]);
 
     // perbarui data ke bizmeta
-    payload.meta.forEach(async (meta) => {
+    for (let i = 0; i < meta.length; i++) {
       await dbPool.execute(
         `UPDATE bizmeta SET meta_value = ? WHERE biz_id = ? AND meta_key = ?`,
-        [meta.meta_value, id, meta.meta_key]
+        [meta[i].meta_value, id, meta[i].meta_key]
       );
-    });
+    }
 
     await connection.commit();
   } catch (error) {

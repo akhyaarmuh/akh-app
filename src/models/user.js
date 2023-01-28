@@ -2,6 +2,7 @@ import bcrypt from 'bcrypt';
 import dbPool from '../config/database.js';
 
 export const save = async (payload) => {
+  const meta = payload.meta;
   const connection = await dbPool.getConnection();
   const sqlUsers = `INSERT INTO users 
   (username, password, nicename, email, url, type, full_name, biz) 
@@ -25,12 +26,12 @@ export const save = async (payload) => {
     ]);
 
     // memasukkan data ke usermeta
-    payload.meta.forEach(async (meta) => {
+    for (let i = 0; i < meta.length; i++) {
       await dbPool.execute(
         `INSERT INTO usermeta (user_id, meta_key, meta_value, meta_extra) VALUES (?, ?, ?, ?)`,
-        [user.insertId, meta.meta_key, meta.meta_value, meta.meta_extra]
+        [user.insertId, meta[i].meta_key, meta[i].meta_value, meta[i].meta_extra]
       );
-    });
+    }
 
     await connection.commit();
   } catch (error) {
@@ -98,6 +99,7 @@ export const findByIdAndDeactive = async (id) => {
 };
 
 export const findByIdAndUpdate = async (id, payload) => {
+  const meta = payload.meta;
   const connection = await dbPool.getConnection();
   const sqlUsers = `UPDATE users SET 
     username = ?, nicename = ?, email = ?, url = ?, type = ?, full_name = ?, biz = ?
@@ -119,12 +121,12 @@ export const findByIdAndUpdate = async (id, payload) => {
     ]);
 
     // perbarui data ke usermeta
-    payload.meta.forEach(async (meta) => {
+    for (let i = 0; i < meta.length; i++) {
       await dbPool.execute(
         `UPDATE usermeta SET meta_value = ? WHERE user_id = ? AND meta_key = ?`,
-        [meta.meta_value, id, meta.meta_key]
+        [meta[i].meta_value, id, meta[i].meta_key]
       );
-    });
+    }
 
     await connection.commit();
   } catch (error) {
