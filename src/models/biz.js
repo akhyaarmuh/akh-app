@@ -2,8 +2,8 @@ import dbPool from '../config/database.js';
 
 export const save = async (payload) => {
   const meta = payload.meta;
-  const connection = await dbPool.getConnection();
   const slug = payload.name.toLowerCase().replaceAll(' ', '-');
+  const connection = await dbPool.getConnection();
 
   try {
     await connection.beginTransaction();

@@ -3,12 +3,12 @@ import dbPool from '../config/database.js';
 
 export const save = async (payload) => {
   const meta = payload.meta;
-  const connection = await dbPool.getConnection();
   const sqlUsers = `INSERT INTO users 
   (username, password, nicename, email, url, type, full_name, biz) 
   VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
   const salt = await bcrypt.genSalt();
   const password = await bcrypt.hash(payload.password, salt);
+  const connection = await dbPool.getConnection();
 
   try {
     await connection.beginTransaction();
@@ -100,10 +100,10 @@ export const findByIdAndDeactive = async (id) => {
 
 export const findByIdAndUpdate = async (id, payload) => {
   const meta = payload.meta;
-  const connection = await dbPool.getConnection();
   const sqlUsers = `UPDATE users SET 
-    username = ?, nicename = ?, email = ?, url = ?, type = ?, full_name = ?, biz = ?
-    WHERE id = ?`;
+  username = ?, nicename = ?, email = ?, url = ?, type = ?, full_name = ?, biz = ?
+  WHERE id = ?`;
+  const connection = await dbPool.getConnection();
 
   try {
     await connection.beginTransaction();
