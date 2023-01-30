@@ -49,7 +49,8 @@ export const find = async () => {
     MAX(CASE datameta.meta_key WHEN 'description' THEN datameta.meta_value END ) AS description,
     MAX(CASE datameta.meta_key WHEN 'featured_image' THEN datameta.meta_value END ) AS feature_image
     FROM data
-    JOIN datameta ON datameta.data_id = data.id
+    LEFT JOIN datameta ON datameta.data_id = data.id
+    WHERE data.data_type = 'product'
     GROUP BY data.id`;
   try {
     const [data] = await dbPool.execute(SQLQuery);
