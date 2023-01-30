@@ -113,12 +113,13 @@ Content-Type: application/json
 {
   "name": "Ayam Bakar",
   "data_type": "produk",
-  "author": 1,
+  "author": 2,
   "biz": 1,
 
   "meta": [
     {"meta_key": "price", "meta_value": "16000", "meta_extra": ""},
     {"meta_key": "resell_commission", "meta_value": "200", "meta_extra": ""},
+    {"meta_key": "featured_image", "meta_value": "5", "meta_extra": "slug"},
     {"meta_key": "description", "meta_value": "Ayam bakar ini dibuat dengan bumbu-bumbu", "meta_extra": ""}
   ]
 }

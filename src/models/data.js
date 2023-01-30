@@ -1,41 +1,29 @@
 import dbPool from '../config/database.js';
 
 export const save = async (payload) => {
-  const data = payload.data;
-  const meta = payload.meta;
-  let idData = 0;
-  let idImage = 0;
+  const meta = payload.meta || [];
   const connection = await dbPool.getConnection();
+  const slug = payload.name.toLowerCase().replaceAll(' ', '-');
 
   try {
     await connection.beginTransaction();
 
     // memasukkan data ke table data
-    for (let i = 0; i < data.length; i++) {
-      const [dataResponse] = await dbPool.execute(
-        `INSERT INTO data (name, data_type, slug, author, biz) VALUES (?, ?, ?, ?, ?)`,
-        [data[i].name, data[i].data_type, data[i].slug, data[i].author, data[i].biz]
-      );
-      if (i === 0) idData = dataResponse.insertId;
-      if (i === 1) idImage = dataResponse.insertId;
-    }
+    const [data] = await dbPool.execute(
+      `INSERT INTO data (name, data_type, slug, author, biz) VALUES (?, ?, ?, ?, ?)`,
+      [payload.name, payload.data_type, slug, payload.author, payload.biz]
+    );
 
     // memasukkan data ke datameta
     for (let i = 0; i < meta.length; i++) {
       await dbPool.execute(
         `INSERT INTO datameta (data_id, meta_key, meta_value, meta_extra) VALUES (?, ?, ?, ?)`,
-        [idData, meta[i].meta_key, meta[i].meta_value, meta[i].meta_extra]
+        [data.insertId, meta[i].meta_key, meta[i].meta_value, meta[i].meta_extra]
       );
     }
 
-    // jika ada gambar
-    if (idImage)
-      await dbPool.execute(
-        `INSERT INTO datameta (data_id, meta_key, meta_value, meta_extra) VALUES (?, ?, ?, ?)`,
-        [idData, 'featured_image', `${idImage}`, '']
-      );
-
     await connection.commit();
+    return data;
   } catch (error) {
     await connection.rollback();
     throw { message: error.message };
