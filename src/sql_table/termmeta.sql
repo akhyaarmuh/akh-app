@@ -5,5 +5,5 @@ CREATE TABLE `termmeta` (
   `meta_value` LONGTEXT     NOT NULL,
   `meta_extra` LONGTEXT,
   PRIMARY KEY (`meta_id`),
-  CONSTRAINT `fk_termmeta_term` FOREIGN KEY (`term_id`) REFERENCES terms(`term_id`)
+  CONSTRAINT `fk_termmeta_term` FOREIGN KEY (`term_id`) REFERENCES terms(`id`) ON DELETE CASCADE
 ) ENGINE = InnoDB;
