@@ -10,3 +10,12 @@ export const createTerm = async (req, res) => {
     res.status(500).json({ message: error.message || 'Internal server error', error });
   }
 };
+
+export const getAllTerm = async (req, res) => {
+  try {
+    const data = await Term.find();
+    res.json({ data });
+  } catch (error) {
+    res.status(500).json({ message: error.message || 'Internal server error', error });
+  }
+};

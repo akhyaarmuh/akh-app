@@ -1,4 +1,28 @@
+# ----------     TERM API     ----------
+POST http://localhost:5000/api/v1/term
+Content-Type: application/json
+
+{
+  "name": "Makanan",
+  "taxonomy": "product_category",
+  "description": "",
+  "parent": 0,
+  "biz": 1,
+  "author": 1,
+  "meta": [
+    {"meta_key": "featured_image", "meta_value": "3", "meta_extra": "1675043654734.png"}
+  ]
+}
+
+###
+GET http://localhost:5000/api/v1/term
+
+
+
+
+
 # ----------     BIZ API     ----------
+###
 POST http://localhost:5000/api/v1/biz
 Content-Type: application/json
 

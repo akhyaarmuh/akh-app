@@ -11,5 +11,5 @@ CREATE TABLE `term_taxonomy` (
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_term_taxonomy_term` FOREIGN KEY (`term_id`) REFERENCES terms(`id`) ON DELETE CASCADE,
   CONSTRAINT `fk_term_taxonomy_user` FOREIGN KEY (`author`) REFERENCES users(`id`),
-  CONSTRAINT `fk_term_taxonomy_biz` FOREIGN KEY (`biz`) REFERENCES biz(`id`) ON DELETE CASCADE
+  CONSTRAINT `fk_term_taxonomy_biz` FOREIGN KEY (`biz`) REFERENCES biz(`id`)
 ) ENGINE = InnoDB;
